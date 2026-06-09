@@ -317,9 +317,9 @@ function MatchRow({ match, state }: { match: ScheduleMatch; state: AppState }) {
 
       {watchers.length > 0 && (
         <div className="sm:w-56 shrink-0 flex flex-col gap-1">
-          {watchers.map(w => (
+          {watchers.map((w, i) => (
             <span
-              key={w.participantId}
+              key={`${w.participantId}-${i}`}
               className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-gold/10 text-gold text-xs"
             >
               <span>{w.participantShortName}</span>
