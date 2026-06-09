@@ -9,6 +9,7 @@ export interface Team {
 export interface Participant {
   id: string;
   name: string;
+  shortName: string;
 }
 
 export interface DrawResult {

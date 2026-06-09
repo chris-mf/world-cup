@@ -1,0 +1,938 @@
+[
+  {
+    "matchNumber": 1,
+    "stage": "Group A",
+    "match": "Mexico vs South Africa",
+    "date": "12 Jun 2026",
+    "day": "Friday",
+    "kickoff": "5:00 AM",
+    "venue": "Mexico City, Mexico"
+  },
+  {
+    "matchNumber": 2,
+    "stage": "Group A",
+    "match": "South Korea vs Czech Republic",
+    "date": "12 Jun 2026",
+    "day": "Friday",
+    "kickoff": "12:00 PM",
+    "venue": "Zapopan, Mexico"
+  },
+  {
+    "matchNumber": 3,
+    "stage": "Group B",
+    "match": "Canada vs Bosnia & Herzegovina",
+    "date": "13 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "5:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 4,
+    "stage": "Group D",
+    "match": "USA vs Paraguay",
+    "date": "13 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "11:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 5,
+    "stage": "Group B",
+    "match": "Qatar vs Switzerland",
+    "date": "14 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "5:00 AM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 6,
+    "stage": "Group C",
+    "match": "Brazil vs Morocco",
+    "date": "14 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "8:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 7,
+    "stage": "Group C",
+    "match": "Haiti vs Scotland",
+    "date": "14 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "11:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 8,
+    "stage": "Group D",
+    "match": "Australia vs Turkey",
+    "date": "14 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "2:00 PM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 9,
+    "stage": "Group E",
+    "match": "Germany vs Curacao",
+    "date": "15 Jun 2026",
+    "day": "Monday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 10,
+    "stage": "Group F",
+    "match": "Netherlands vs Japan",
+    "date": "15 Jun 2026",
+    "day": "Monday",
+    "kickoff": "6:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 11,
+    "stage": "Group E",
+    "match": "Ivory Coast vs Ecuador",
+    "date": "15 Jun 2026",
+    "day": "Monday",
+    "kickoff": "9:00 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 12,
+    "stage": "Group F",
+    "match": "Sweden vs Tunisia",
+    "date": "15 Jun 2026",
+    "day": "Monday",
+    "kickoff": "12:00 PM",
+    "venue": "Guadalupe, Mexico"
+  },
+  {
+    "matchNumber": 13,
+    "stage": "Group H",
+    "match": "Spain vs Cape Verde",
+    "date": "16 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "2:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 14,
+    "stage": "Group G",
+    "match": "Belgium vs Egypt",
+    "date": "16 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "5:00 AM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 15,
+    "stage": "Group H",
+    "match": "Saudi Arabia vs Uruguay",
+    "date": "16 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "8:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 16,
+    "stage": "Group G",
+    "match": "Iran vs New Zealand",
+    "date": "16 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "11:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 17,
+    "stage": "Group I",
+    "match": "France vs Senegal",
+    "date": "17 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "5:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 18,
+    "stage": "Group I",
+    "match": "Iraq vs Norway",
+    "date": "17 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "8:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 19,
+    "stage": "Group J",
+    "match": "Argentina vs Algeria",
+    "date": "17 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "11:00 AM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 20,
+    "stage": "Group J",
+    "match": "Austria vs Jordan",
+    "date": "17 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "2:00 PM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 21,
+    "stage": "Group K",
+    "match": "Portugal vs DR Congo",
+    "date": "18 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 22,
+    "stage": "Group L",
+    "match": "England vs Croatia",
+    "date": "18 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "6:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 23,
+    "stage": "Group L",
+    "match": "Ghana vs Panama",
+    "date": "18 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "9:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 24,
+    "stage": "Group K",
+    "match": "Uzbekistan vs Colombia",
+    "date": "18 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "12:00 PM",
+    "venue": "Mexico City, Mexico"
+  },
+  {
+    "matchNumber": 25,
+    "stage": "Group A",
+    "match": "Czech Republic vs South Africa",
+    "date": "19 Jun 2026",
+    "day": "Friday",
+    "kickoff": "2:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 26,
+    "stage": "Group B",
+    "match": "Switzerland vs Bosnia & Herzegovina",
+    "date": "19 Jun 2026",
+    "day": "Friday",
+    "kickoff": "5:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 27,
+    "stage": "Group B",
+    "match": "Canada vs Qatar",
+    "date": "19 Jun 2026",
+    "day": "Friday",
+    "kickoff": "8:00 AM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 28,
+    "stage": "Group A",
+    "match": "Mexico vs South Korea",
+    "date": "19 Jun 2026",
+    "day": "Friday",
+    "kickoff": "11:00 AM",
+    "venue": "Zapopan, Mexico"
+  },
+  {
+    "matchNumber": 29,
+    "stage": "Group D",
+    "match": "USA vs Australia",
+    "date": "20 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "5:00 AM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 30,
+    "stage": "Group C",
+    "match": "Scotland vs Morocco",
+    "date": "20 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "8:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 31,
+    "stage": "Group C",
+    "match": "Brazil vs Haiti",
+    "date": "20 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "10:30 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 32,
+    "stage": "Group D",
+    "match": "Turkey vs Paraguay",
+    "date": "20 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "1:00 PM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 33,
+    "stage": "Group A",
+    "match": "Netherlands vs Sweden",
+    "date": "21 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 34,
+    "stage": "Group E",
+    "match": "Germany vs Ivory Coast",
+    "date": "21 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "6:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 35,
+    "stage": "Group E",
+    "match": "Ecuador vs Curacao",
+    "date": "21 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "10:00 AM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 36,
+    "stage": "Group F",
+    "match": "Tunisia vs Japan",
+    "date": "21 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "2:00 PM",
+    "venue": "Guadalupe, Mexico"
+  },
+  {
+    "matchNumber": 37,
+    "stage": "Group H",
+    "match": "Spain vs Saudi Arabia",
+    "date": "22 Jun 2026",
+    "day": "Monday",
+    "kickoff": "2:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 38,
+    "stage": "Group G",
+    "match": "Belgium vs Iran",
+    "date": "22 Jun 2026",
+    "day": "Monday",
+    "kickoff": "5:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 39,
+    "stage": "Group H",
+    "match": "Uruguay vs Cape Verde",
+    "date": "22 Jun 2026",
+    "day": "Monday",
+    "kickoff": "8:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 40,
+    "stage": "Group G",
+    "match": "New Zealand vs Egypt",
+    "date": "22 Jun 2026",
+    "day": "Monday",
+    "kickoff": "11:00 AM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 41,
+    "stage": "Group J",
+    "match": "Argentina vs Austria",
+    "date": "23 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "3:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 42,
+    "stage": "Group I",
+    "match": "France vs Iraq",
+    "date": "23 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "7:00 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 43,
+    "stage": "Group I",
+    "match": "Norway vs Senegal",
+    "date": "23 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "10:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 44,
+    "stage": "Group J",
+    "match": "Jordan vs Algeria",
+    "date": "23 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "1:00 PM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 45,
+    "stage": "Group K",
+    "match": "Portugal vs Uzbekistan",
+    "date": "24 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 46,
+    "stage": "Group L",
+    "match": "England vs Ghana",
+    "date": "24 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "6:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 47,
+    "stage": "Group L",
+    "match": "Panama vs Croatia",
+    "date": "24 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "9:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 48,
+    "stage": "Group K",
+    "match": "Colombia vs DR Congo",
+    "date": "24 Jun 2026",
+    "day": "Wednesday",
+    "kickoff": "12:00 PM",
+    "venue": "Zapopan, Mexico"
+  },
+  {
+    "matchNumber": 49,
+    "stage": "Group B",
+    "match": "Switzerland vs Canada",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "5:00 AM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 50,
+    "stage": "Group B",
+    "match": "Bosnia & Herzegovina vs Qatar",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "5:00 AM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 51,
+    "stage": "Group C",
+    "match": "Morocco vs Haiti",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "8:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 52,
+    "stage": "Group C",
+    "match": "Scotland vs Brazil",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "8:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 53,
+    "stage": "Group A",
+    "match": "South Africa vs South Korea",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "11:00 AM",
+    "venue": "Guadalupe, Mexico"
+  },
+  {
+    "matchNumber": 54,
+    "stage": "Group A",
+    "match": "Czech Republic vs Mexico",
+    "date": "25 Jun 2026",
+    "day": "Thursday",
+    "kickoff": "11:00 AM",
+    "venue": "Mexico City, Mexico"
+  },
+  {
+    "matchNumber": 55,
+    "stage": "Group E",
+    "match": "Curacao vs Ivory Coast",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "6:00 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 56,
+    "stage": "Group E",
+    "match": "Ecuador vs Germany",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "6:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 57,
+    "stage": "Group F",
+    "match": "Tunisia vs Netherlands",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "9:00 AM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 58,
+    "stage": "Group F",
+    "match": "Japan vs Sweden",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "9:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 59,
+    "stage": "Group D",
+    "match": "Turkey vs USA",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "12:00 PM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 60,
+    "stage": "Group D",
+    "match": "Paraguay vs Australia",
+    "date": "26 Jun 2026",
+    "day": "Friday",
+    "kickoff": "12:00 PM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 61,
+    "stage": "Group I",
+    "match": "Norway vs France",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "5:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 62,
+    "stage": "Group I",
+    "match": "Senegal vs Iraq",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "5:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 63,
+    "stage": "Group H",
+    "match": "Cape Verde vs Saudi Arabia",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "10:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 64,
+    "stage": "Group H",
+    "match": "Uruguay vs Spain",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "10:00 AM",
+    "venue": "Zapopan, Mexico"
+  },
+  {
+    "matchNumber": 65,
+    "stage": "Group G",
+    "match": "New Zealand vs Belgium",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "1:00 PM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 66,
+    "stage": "Group G",
+    "match": "Egypt vs Iran",
+    "date": "27 Jun 2026",
+    "day": "Saturday",
+    "kickoff": "1:00 PM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 67,
+    "stage": "Group L",
+    "match": "Panama vs England",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "7:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 68,
+    "stage": "Group L",
+    "match": "Croatia vs Ghana",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "7:00 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 69,
+    "stage": "Group K",
+    "match": "Colombia vs Portugal",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "9:30 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 70,
+    "stage": "Group K",
+    "match": "DR Congo vs Uzbekistan",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "9:30 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 71,
+    "stage": "Group J",
+    "match": "Algeria vs Austria",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "12:00 PM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 72,
+    "stage": "Group J",
+    "match": "Jordan vs Argentina",
+    "date": "28 Jun 2026",
+    "day": "Sunday",
+    "kickoff": "12:00 PM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 73,
+    "stage": "Round of 32",
+    "match": "Match 73: A runners-up vs B runners-up",
+    "date": "29 Jun 2026",
+    "day": "Monday",
+    "kickoff": "5:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 74,
+    "stage": "Round of 32",
+    "match": "Match 76: C winners vs F runners-up",
+    "date": "30 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 75,
+    "stage": "Round of 32",
+    "match": "Match 74: E winners vs A/B/C/D/F 3rd",
+    "date": "30 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "6:30 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 76,
+    "stage": "Round of 32",
+    "match": "Match 75: F winners vs C runners-up",
+    "date": "30 Jun 2026",
+    "day": "Tuesday",
+    "kickoff": "11:00 AM",
+    "venue": "Guadalupe, Mexico"
+  },
+  {
+    "matchNumber": 77,
+    "stage": "Round of 32",
+    "match": "Match 78: E runners-up vs I runners-up",
+    "date": "01 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "3:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 78,
+    "stage": "Round of 32",
+    "match": "Match 77: I winners vs C/D/F/G/H 3rd",
+    "date": "01 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "7:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 79,
+    "stage": "Round of 32",
+    "match": "Match 79: A winners vs C/E/F/H/I 3rd",
+    "date": "01 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "11:00 AM",
+    "venue": "Mexico City, Mexico"
+  },
+  {
+    "matchNumber": 80,
+    "stage": "Round of 32",
+    "match": "Match 80: L winners vs E/H/I/J/K 3rd",
+    "date": "02 Jul 2026",
+    "day": "Thursday",
+    "kickoff": "2:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 81,
+    "stage": "Round of 32",
+    "match": "Match 82: G winners vs A/E/H/I/J 3rd",
+    "date": "02 Jul 2026",
+    "day": "Thursday",
+    "kickoff": "6:00 AM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 82,
+    "stage": "Round of 32",
+    "match": "Match 81: D winners vs B/E/F/I/J 3rd",
+    "date": "02 Jul 2026",
+    "day": "Thursday",
+    "kickoff": "10:00 AM",
+    "venue": "Santa Clara, USA"
+  },
+  {
+    "matchNumber": 83,
+    "stage": "Round of 32",
+    "match": "Match 84: H winners vs J runners-up",
+    "date": "03 Jul 2026",
+    "day": "Friday",
+    "kickoff": "5:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 84,
+    "stage": "Round of 32",
+    "match": "Match 83: K runners-up vs L runners-up",
+    "date": "03 Jul 2026",
+    "day": "Friday",
+    "kickoff": "9:00 AM",
+    "venue": "Toronto, Canada"
+  },
+  {
+    "matchNumber": 85,
+    "stage": "Round of 32",
+    "match": "Match 85: B winners vs E/F/G/I/J 3rd",
+    "date": "03 Jul 2026",
+    "day": "Friday",
+    "kickoff": "1:00 PM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 86,
+    "stage": "Round of 32",
+    "match": "Match 88: D runners-up vs G runners-up",
+    "date": "04 Jul 2026",
+    "day": "Saturday",
+    "kickoff": "4:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 87,
+    "stage": "Round of 32",
+    "match": "Match 86: J winners vs H runners-up",
+    "date": "04 Jul 2026",
+    "day": "Saturday",
+    "kickoff": "8:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 88,
+    "stage": "Round of 32",
+    "match": "Match 87: K winners vs D/E/I/J/L 3rd",
+    "date": "04 Jul 2026",
+    "day": "Saturday",
+    "kickoff": "11:30 AM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 89,
+    "stage": "Round of 16",
+    "match": "Match 90: W73 vs W75",
+    "date": "05 Jul 2026",
+    "day": "Sunday",
+    "kickoff": "3:00 AM",
+    "venue": "Houston, USA"
+  },
+  {
+    "matchNumber": 90,
+    "stage": "Round of 16",
+    "match": "Match 89: W74 vs W77",
+    "date": "05 Jul 2026",
+    "day": "Sunday",
+    "kickoff": "7:00 AM",
+    "venue": "Philadelphia, USA"
+  },
+  {
+    "matchNumber": 91,
+    "stage": "Round of 16",
+    "match": "Match 91: W76 vs W78",
+    "date": "06 Jul 2026",
+    "day": "Monday",
+    "kickoff": "6:00 AM",
+    "venue": "New Jersey, USA"
+  },
+  {
+    "matchNumber": 92,
+    "stage": "Round of 16",
+    "match": "Match 92: W79 vs W80",
+    "date": "06 Jul 2026",
+    "day": "Monday",
+    "kickoff": "10:00 AM",
+    "venue": "Mexico City, Mexico"
+  },
+  {
+    "matchNumber": 93,
+    "stage": "Round of 16",
+    "match": "Match 93: W83 vs W84",
+    "date": "07 Jul 2026",
+    "day": "Tuesday",
+    "kickoff": "5:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 94,
+    "stage": "Round of 16",
+    "match": "Match 94: W81 vs W82",
+    "date": "07 Jul 2026",
+    "day": "Tuesday",
+    "kickoff": "10:00 AM",
+    "venue": "Seattle, USA"
+  },
+  {
+    "matchNumber": 95,
+    "stage": "Round of 16",
+    "match": "Match 95: W86 vs W88",
+    "date": "08 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "2:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 96,
+    "stage": "Round of 16",
+    "match": "Match 96: W85 vs W87",
+    "date": "08 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "6:00 AM",
+    "venue": "Vancouver, Canada"
+  },
+  {
+    "matchNumber": 97,
+    "stage": "Quarter-final",
+    "match": "Match 97: W89 vs W90",
+    "date": "10 Jul 2026",
+    "day": "Friday",
+    "kickoff": "6:00 AM",
+    "venue": "Foxborough, USA"
+  },
+  {
+    "matchNumber": 98,
+    "stage": "Quarter-final",
+    "match": "Match 98: W93 vs W94",
+    "date": "11 Jul 2026",
+    "day": "Saturday",
+    "kickoff": "5:00 AM",
+    "venue": "Los Angeles, USA"
+  },
+  {
+    "matchNumber": 99,
+    "stage": "Quarter-final",
+    "match": "Match 99: W91 vs W92",
+    "date": "12 Jul 2026",
+    "day": "Sunday",
+    "kickoff": "7:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 100,
+    "stage": "Quarter-final",
+    "match": "Match 100: W95 vs W96",
+    "date": "12 Jul 2026",
+    "day": "Sunday",
+    "kickoff": "11:00 AM",
+    "venue": "Kansas City, USA"
+  },
+  {
+    "matchNumber": 101,
+    "stage": "Semi-final",
+    "match": "Match 101: W97 vs W98",
+    "date": "15 Jul 2026",
+    "day": "Wednesday",
+    "kickoff": "5:00 AM",
+    "venue": "Arlington, USA"
+  },
+  {
+    "matchNumber": 102,
+    "stage": "Semi-final",
+    "match": "Match 102: W99 vs W100",
+    "date": "16 Jul 2026",
+    "day": "Thursday",
+    "kickoff": "5:00 AM",
+    "venue": "Atlanta, USA"
+  },
+  {
+    "matchNumber": 103,
+    "stage": "Third Place Playoff",
+    "match": "Match 103: L101 vs L102",
+    "date": "19 Jul 2026",
+    "day": "Sunday",
+    "kickoff": "7:00 AM",
+    "venue": "Miami, USA"
+  },
+  {
+    "matchNumber": 104,
+    "stage": "Final",
+    "match": "Match 104: W101 vs W102",
+    "date": "20 Jul 2026",
+    "day": "Monday",
+    "kickoff": "5:00 AM",
+    "venue": "New Jersey, USA"
+  }
+]

@@ -32,8 +32,8 @@ export function ParticipantCard({
         href={`/participant/${participant.id}`}
         className="block group"
       >
-        <div className="bg-surface-raised border border-border-subtle rounded-xl p-4 transition-all duration-200 hover:border-gold/30 hover:bg-navy-lighter hover:scale-[1.02]">
-          <p className="font-semibold text-sm mb-3 text-text-primary group-hover:text-gold transition-colors truncate">
+        <div className="bg-surface-raised border border-border-subtle rounded-xl p-4 transition-all duration-200 hover:border-white/10 hover:bg-white/[0.04] hover:scale-[1.02]">
+          <p className="text-base mb-3 text-text-primary group-hover:text-gold transition-colors truncate">
             {participant.name}
           </p>
 

@@ -13,7 +13,7 @@ import { playAirHorn } from '@/lib/airhorn';
 import { ParticipantCard } from '@/components/ParticipantCard';
 import { Confetti } from '@/components/Confetti';
 
-type DrawPhase = 'idle' | 'ceremony' | 'complete';
+type DrawPhase = 'idle' | 'ceremony' | 'reveal-all' | 'complete';
 
 export default function HomePage() {
   const [state, setState] = useState<AppState | null>(null);
@@ -33,7 +33,7 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleStartDraw = useCallback(() => {
+  const handleStartIndividualDraw = useCallback(() => {
     const results = executeDraw();
     const newState = saveDraw(results);
     setState(newState);
@@ -41,6 +41,17 @@ export default function HomePage() {
     setCurrentIndex(0);
     setRevealedSet(new Set());
     setJustRevealed(false);
+  }, []);
+
+  const handleDrawAll = useCallback(() => {
+    const results = executeDraw();
+    const newState = saveDraw(results);
+    setState(newState);
+    setRevealedSet(new Set(PARTICIPANTS.map((_, i) => i)));
+    setPhase('reveal-all');
+    playAirHorn();
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 6000);
   }, []);
 
   const handleReveal = useCallback(() => {
@@ -106,25 +117,36 @@ export default function HomePage() {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 text-center">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
             <span className="text-gold">World Cup 2026</span>
             <br />
             <span className="text-text-primary">Sweepstake</span>
           </h1>
-          <p className="mt-4 text-text-secondary text-lg">
+          <p className="mt-4 text-text-secondary text-xl">
             24 participants. 48 teams. 2 teams each.
             <br />
             Fair draw — no one gets two top-10 ranked teams.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleStartDraw}
-            className="mt-10 px-10 py-5 bg-gold text-navy font-bold text-xl rounded-xl
-                       hover:bg-gold-light transition-colors shadow-lg shadow-gold/20"
-          >
-            Start Draw
-          </motion.button>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleStartIndividualDraw}
+              className="px-10 py-5 bg-gold text-bg font-medium text-xl rounded-xl
+                         hover:bg-gold-light transition-colors shadow-lg shadow-gold/20"
+            >
+              Individual Draw
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleDrawAll}
+              className="px-10 py-5 bg-white/10 text-text-primary font-normal text-xl rounded-xl
+                         border border-border-subtle hover:bg-white/20 transition-colors"
+            >
+              Draw All
+            </motion.button>
+          </div>
           <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {PARTICIPANTS.map((p) => (
               <div
@@ -155,7 +177,7 @@ export default function HomePage() {
         {/* Progress */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
+            <span className="text-xs font-normal uppercase tracking-wider text-text-muted">
               Drawing
             </span>
             <span className="text-xs text-text-muted">
@@ -184,7 +206,7 @@ export default function HomePage() {
           >
             {/* Participant name */}
             <motion.h2
-              className="text-3xl sm:text-4xl font-bold text-gold mb-8"
+              className="text-4xl sm:text-5xl font-light text-gold mb-8"
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
@@ -208,11 +230,11 @@ export default function HomePage() {
                         stiffness: 200,
                         damping: 15,
                       }}
-                      className="bg-navy border border-gold/20 rounded-xl p-4 flex items-center gap-4"
+                      className="bg-bg border border-gold/20 rounded-xl p-4 flex items-center gap-4"
                     >
                       <span className="text-4xl">{team.flag}</span>
                       <div className="text-left">
-                        <p className="font-bold text-lg text-text-primary">
+                        <p className="font-normal text-lg text-text-primary">
                           {team.name}
                         </p>
                         <p className="text-xs text-text-muted">
@@ -228,7 +250,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleReveal}
-                className="px-8 py-4 bg-gold text-navy font-bold text-lg rounded-xl
+                className="px-8 py-4 bg-gold text-bg font-medium text-lg rounded-xl
                            hover:bg-gold-light transition-colors shadow-lg shadow-gold/20
                            animate-pulse-gold"
               >
@@ -296,6 +318,54 @@ export default function HomePage() {
     );
   }
 
+  // --- REVEAL ALL (instant draw) ---
+  if (phase === 'reveal-all') {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Confetti active={showConfetti} />
+
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10"
+        >
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
+            <span className="text-gold">The Draw</span>
+          </h1>
+          <p className="mt-3 text-text-secondary text-xl">All teams revealed!</p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setPhase('complete')}
+            className="mt-6 px-6 py-3 bg-gold text-bg font-medium rounded-xl
+                       hover:bg-gold-light transition-colors"
+          >
+            Continue
+          </motion.button>
+        </motion.div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {PARTICIPANTS.map((participant, index) => (
+            <motion.div
+              key={participant.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.05, type: 'spring', stiffness: 200, damping: 20 }}
+            >
+              <ParticipantCard
+                participant={participant}
+                teams={getTeamsForParticipant(participant.id, state.drawResults)}
+                index={index}
+                revealed={true}
+                eliminatedTeams={eliminatedTeams}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   // --- COMPLETE (grid view) ---
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -306,7 +376,7 @@ export default function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-10"
       >
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
           <span className="text-gold">World Cup 2026</span>
           <br />
           <span className="text-text-primary">Sweepstake</span>
@@ -333,14 +403,8 @@ export default function HomePage() {
 
         <div className="mt-4 flex items-center justify-center gap-3">
           <Link
-            href="/bracket"
-            className="px-4 py-2 bg-gold/10 text-gold border border-gold/20 rounded-lg text-sm font-medium hover:bg-gold/20 transition-colors"
-          >
-            View Bracket
-          </Link>
-          <Link
             href="/leaderboard"
-            className="px-4 py-2 bg-white/5 text-text-secondary border border-border-subtle rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"
+            className="px-4 py-2 bg-gold/10 text-gold border border-gold/20 rounded-lg text-sm font-medium hover:bg-gold/20 transition-colors"
           >
             Leaderboard
           </Link>
@@ -367,7 +431,7 @@ export default function HomePage() {
         transition={{ delay: 0.5 }}
         className="mt-12 border-t border-border-subtle pt-8"
       >
-        <h2 className="text-sm font-bold uppercase tracking-wider text-text-muted mb-4">
+        <h2 className="text-sm font-normal uppercase tracking-wider text-text-muted mb-4">
           Scoring System
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
@@ -383,7 +447,7 @@ export default function HomePage() {
               key={round}
               className="bg-surface-raised border border-border-subtle rounded-lg p-3 text-center"
             >
-              <p className="text-gold font-mono font-bold text-lg">{pts} pts</p>
+              <p className="text-gold font-mono font-normal text-lg">{pts} pts</p>
               <p className="text-text-muted text-xs mt-1">{round}</p>
             </div>
           ))}
@@ -415,11 +479,11 @@ function RedrawModal({
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-navy-light border border-border-subtle rounded-xl p-6 max-w-sm w-full text-center"
+        className="bg-surface border border-border-subtle rounded-xl p-6 max-w-sm w-full text-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-3xl mb-3">⚠️</div>
-        <h3 className="text-lg font-bold text-text-primary mb-2">Redraw All?</h3>
+        <h3 className="text-lg font-normal text-text-primary mb-2">Redraw All?</h3>
         <p className="text-text-secondary text-sm mb-6">
           This will clear all current draw results and start a completely new draw.
           This cannot be undone.
@@ -433,7 +497,7 @@ function RedrawModal({
           </button>
           <button
             onClick={onConfirm}
-            className="px-5 py-2.5 bg-eliminated text-white rounded-lg text-sm font-bold hover:bg-red-500 transition-colors"
+            className="px-5 py-2.5 bg-eliminated text-white rounded-lg text-sm font-normal hover:bg-red-500 transition-colors"
           >
             Confirm Redraw
           </button>

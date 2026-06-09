@@ -36,9 +36,21 @@ const NAMES = [
   'Yasin Masukor',
 ];
 
+const KEEP_FULL_NAME = new Set(['Chris Bear', 'Christopher Ellis', 'Nick P', 'Nick Gower']);
+
+function shortName(name: string): string {
+  if (KEEP_FULL_NAME.has(name)) {
+    if (name === 'Christopher Ellis') return 'Chris Ellis';
+    if (name === 'Nick Gower') return 'Nick G';
+    return name;
+  }
+  return name.split(' ')[0];
+}
+
 export const PARTICIPANTS: Participant[] = NAMES.map((name) => ({
   id: toSlug(name),
   name,
+  shortName: shortName(name),
 }));
 
 export function getParticipant(slug: string): Participant | undefined {
