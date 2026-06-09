@@ -1,12 +1,6 @@
 import { saveState } from '@/lib/blob-store';
 
-export async function POST(request: Request) {
-  const { code } = await request.json();
-
-  if (!process.env.DRAW_SECRET || code !== process.env.DRAW_SECRET) {
-    return Response.json({ error: 'Invalid code' }, { status: 403 });
-  }
-
+export async function POST() {
   const state = {
     drawComplete: false,
     drawResults: [],
