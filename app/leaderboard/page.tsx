@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AppState } from '@/lib/types';
-import { loadState } from '@/lib/store';
 import { calculateScores } from '@/lib/scoring';
 import { LeaderboardTable } from '@/components/LeaderboardTable';
 
@@ -11,7 +10,9 @@ export default function LeaderboardPage() {
   const [state, setState] = useState<AppState | null>(null);
 
   useEffect(() => {
-    setState(loadState());
+    fetch('/api/state')
+      .then((r) => r.json())
+      .then((s: AppState) => setState(s));
   }, []);
 
   if (!state) {

@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { AppState } from '@/lib/types';
-import { loadState, getTeamsForParticipant } from '@/lib/store';
+import { getTeamsForParticipant } from '@/lib/store';
 import { getParticipant } from '@/lib/participants';
 import { getTeam } from '@/lib/teams';
 import { isTeamEliminated, getTeamCurrentRound } from '@/lib/bracket';
@@ -18,7 +18,9 @@ export default function ParticipantPage() {
   const [state, setState] = useState<AppState | null>(null);
 
   useEffect(() => {
-    setState(loadState());
+    fetch('/api/state')
+      .then((r) => r.json())
+      .then((s: AppState) => setState(s));
   }, []);
 
   const participant = getParticipant(slug);

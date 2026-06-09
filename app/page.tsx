@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { AppState } from '@/lib/types';
 import { PARTICIPANTS } from '@/lib/participants';
 import { getTeam } from '@/lib/teams';
-import { executeDraw } from '@/lib/draw';
-import { loadState, saveDraw, resetDraw, getTeamsForParticipant } from '@/lib/store';
+import { getTeamsForParticipant } from '@/lib/store';
 import { isTeamEliminated } from '@/lib/bracket';
 import { playAirHorn } from '@/lib/airhorn';
 import { ParticipantCard } from '@/components/ParticipantCard';
@@ -23,35 +22,58 @@ export default function HomePage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [justRevealed, setJustRevealed] = useState(false);
   const [showRedrawModal, setShowRedrawModal] = useState(false);
+  const [showCodeModal, setShowCodeModal] = useState<'individual' | 'all' | null>(null);
+  const [drawError, setDrawError] = useState<string | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
-    const loaded = loadState();
-    setState(loaded);
-    if (loaded.drawComplete) {
-      setPhase('complete');
-      setRevealedSet(new Set(PARTICIPANTS.map((_, i) => i)));
+    fetch('/api/state')
+      .then((r) => r.json())
+      .then((loaded: AppState) => {
+        setState(loaded);
+        if (loaded.drawComplete) {
+          setPhase('complete');
+          setRevealedSet(new Set(PARTICIPANTS.map((_, i) => i)));
+        }
+      });
+  }, []);
+
+  const handleDraw = useCallback(async (code: string, mode: 'individual' | 'all') => {
+    setIsDrawing(true);
+    setDrawError(null);
+    try {
+      const res = await fetch('/api/draw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setDrawError(err.error || 'Draw failed');
+        setIsDrawing(false);
+        return;
+      }
+      const newState: AppState = await res.json();
+      setState(newState);
+      setShowCodeModal(null);
+      setIsDrawing(false);
+
+      if (mode === 'individual') {
+        setPhase('ceremony');
+        setCurrentIndex(0);
+        setRevealedSet(new Set());
+        setJustRevealed(false);
+      } else {
+        setRevealedSet(new Set(PARTICIPANTS.map((_, i) => i)));
+        setPhase('reveal-all');
+        playAirHorn();
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 6000);
+      }
+    } catch {
+      setDrawError('Network error');
+      setIsDrawing(false);
     }
-  }, []);
-
-  const handleStartIndividualDraw = useCallback(() => {
-    const results = executeDraw();
-    const newState = saveDraw(results);
-    setState(newState);
-    setPhase('ceremony');
-    setCurrentIndex(0);
-    setRevealedSet(new Set());
-    setJustRevealed(false);
-  }, []);
-
-  const handleDrawAll = useCallback(() => {
-    const results = executeDraw();
-    const newState = saveDraw(results);
-    setState(newState);
-    setRevealedSet(new Set(PARTICIPANTS.map((_, i) => i)));
-    setPhase('reveal-all');
-    playAirHorn();
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 6000);
   }, []);
 
   const handleReveal = useCallback(() => {
@@ -79,14 +101,33 @@ export default function HomePage() {
     }
   }, [currentIndex]);
 
-  const handleRedraw = useCallback(() => {
-    const newState = resetDraw();
-    setState(newState);
-    setPhase('idle');
-    setCurrentIndex(0);
-    setRevealedSet(new Set());
-    setShowRedrawModal(false);
-    setJustRevealed(false);
+  const handleRedraw = useCallback(async (code: string) => {
+    setIsDrawing(true);
+    setDrawError(null);
+    try {
+      const res = await fetch('/api/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setDrawError(err.error || 'Reset failed');
+        setIsDrawing(false);
+        return;
+      }
+      const newState: AppState = await res.json();
+      setState(newState);
+      setPhase('idle');
+      setCurrentIndex(0);
+      setRevealedSet(new Set());
+      setShowRedrawModal(false);
+      setJustRevealed(false);
+      setIsDrawing(false);
+    } catch {
+      setDrawError('Network error');
+      setIsDrawing(false);
+    }
   }, []);
 
   const eliminatedTeams = new Set<string>();
@@ -131,7 +172,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleStartIndividualDraw}
+              onClick={() => setShowCodeModal('individual')}
               className="px-10 py-5 bg-gold text-bg font-medium text-xl rounded-xl
                          hover:bg-gold-light transition-colors shadow-lg shadow-gold/20"
             >
@@ -140,7 +181,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleDrawAll}
+              onClick={() => setShowCodeModal('all')}
               className="px-10 py-5 bg-white/10 text-text-primary font-normal text-xl rounded-xl
                          border border-border-subtle hover:bg-white/20 transition-colors"
             >
@@ -158,6 +199,15 @@ export default function HomePage() {
             ))}
           </div>
         </motion.div>
+
+        {showCodeModal && (
+          <CodeModal
+            onSubmit={(code) => handleDraw(code, showCodeModal)}
+            onCancel={() => { setShowCodeModal(null); setDrawError(null); }}
+            error={drawError}
+            isLoading={isDrawing}
+          />
+        )}
       </div>
     );
   }
@@ -311,7 +361,9 @@ export default function HomePage() {
         {showRedrawModal && (
           <RedrawModal
             onConfirm={handleRedraw}
-            onCancel={() => setShowRedrawModal(false)}
+            onCancel={() => { setShowRedrawModal(false); setDrawError(null); }}
+            error={drawError}
+            isLoading={isDrawing}
           />
         )}
       </div>
@@ -457,9 +509,79 @@ export default function HomePage() {
       {showRedrawModal && (
         <RedrawModal
           onConfirm={handleRedraw}
-          onCancel={() => setShowRedrawModal(false)}
+          onCancel={() => { setShowRedrawModal(false); setDrawError(null); }}
+          error={drawError}
+          isLoading={isDrawing}
         />
       )}
+    </div>
+  );
+}
+
+function CodeModal({
+  onSubmit,
+  onCancel,
+  error,
+  isLoading,
+}: {
+  onSubmit: (code: string) => void;
+  onCancel: () => void;
+  error: string | null;
+  isLoading: boolean;
+}) {
+  const [code, setCode] = useState('');
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={onCancel}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="bg-surface border border-border-subtle rounded-xl p-6 max-w-sm w-full text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="text-3xl mb-3">🔐</div>
+        <h3 className="text-lg font-normal text-text-primary mb-2">Enter Draw Code</h3>
+        <p className="text-text-secondary text-sm mb-4">
+          Enter the secret code to execute the draw.
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (code.trim()) onSubmit(code.trim());
+          }}
+        >
+          <input
+            type="password"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Secret code"
+            autoFocus
+            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-border-subtle text-text-primary text-center text-lg tracking-widest placeholder:text-text-muted focus:outline-none focus:border-gold/40 mb-4"
+          />
+          {error && (
+            <p className="text-eliminated text-sm mb-4">{error}</p>
+          )}
+          <div className="flex gap-3 justify-center">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-5 py-2.5 bg-white/10 text-text-secondary rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isLoading || !code.trim()}
+              className="px-5 py-2.5 bg-gold text-bg rounded-lg text-sm font-medium hover:bg-gold-light transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Drawing...' : 'Draw'}
+            </button>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
 }
@@ -467,10 +589,16 @@ export default function HomePage() {
 function RedrawModal({
   onConfirm,
   onCancel,
+  error,
+  isLoading,
 }: {
-  onConfirm: () => void;
+  onConfirm: (code: string) => void;
   onCancel: () => void;
+  error: string | null;
+  isLoading: boolean;
 }) {
+  const [code, setCode] = useState('');
+
   return (
     <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -484,24 +612,44 @@ function RedrawModal({
       >
         <div className="text-3xl mb-3">⚠️</div>
         <h3 className="text-lg font-normal text-text-primary mb-2">Redraw All?</h3>
-        <p className="text-text-secondary text-sm mb-6">
+        <p className="text-text-secondary text-sm mb-4">
           This will clear all current draw results and start a completely new draw.
           This cannot be undone.
         </p>
-        <div className="flex gap-3 justify-center">
-          <button
-            onClick={onCancel}
-            className="px-5 py-2.5 bg-white/10 text-text-secondary rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            className="px-5 py-2.5 bg-eliminated text-white rounded-lg text-sm font-normal hover:bg-red-500 transition-colors"
-          >
-            Confirm Redraw
-          </button>
-        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (code.trim()) onConfirm(code.trim());
+          }}
+        >
+          <input
+            type="password"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Secret code"
+            autoFocus
+            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-border-subtle text-text-primary text-center text-lg tracking-widest placeholder:text-text-muted focus:outline-none focus:border-gold/40 mb-4"
+          />
+          {error && (
+            <p className="text-eliminated text-sm mb-4">{error}</p>
+          )}
+          <div className="flex gap-3 justify-center">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-5 py-2.5 bg-white/10 text-text-secondary rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isLoading || !code.trim()}
+              className="px-5 py-2.5 bg-eliminated text-white rounded-lg text-sm font-normal hover:bg-red-500 transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Resetting...' : 'Confirm Redraw'}
+            </button>
+          </div>
+        </form>
       </motion.div>
     </div>
   );

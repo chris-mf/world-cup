@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { SCHEDULE, ScheduleMatch } from '@/lib/schedule';
 import { TEAMS } from '@/lib/teams';
 import { PARTICIPANTS } from '@/lib/participants';
-import { loadState, getParticipantForTeam } from '@/lib/store';
+import { getParticipantForTeam } from '@/lib/store';
 import { AppState } from '@/lib/types';
 
 const TEAM_NAME_TO_CODE: Record<string, string> = {};
@@ -195,7 +195,9 @@ export default function TimetablePage() {
   const dateRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
-    setState(loadState());
+    fetch('/api/state')
+      .then((r) => r.json())
+      .then((s: AppState) => setState(s));
   }, []);
 
   if (!state) {
