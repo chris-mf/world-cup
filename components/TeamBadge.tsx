@@ -40,6 +40,11 @@ export function TeamBadge({
           } ${eliminated ? 'line-through text-text-muted' : ''}`}
         >
           {team.name}
+          {team.winProbability > 0 && (
+            <span className={`ml-1 font-normal ${eliminated ? 'text-text-muted' : 'text-text-muted'}`}>
+              {team.winProbability}%
+            </span>
+          )}
         </span>
       )}
     </div>

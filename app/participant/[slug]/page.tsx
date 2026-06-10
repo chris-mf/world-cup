@@ -144,6 +144,9 @@ export default function ParticipantPage() {
                   <div>
                     <p className={`font-bold text-lg ${eliminated ? 'line-through text-text-muted' : ''}`}>
                       {team.name}
+                      {team.winProbability > 0 && (
+                        <span className="ml-1.5 font-normal text-sm text-text-muted">{team.winProbability}%</span>
+                      )}
                     </p>
                     <p className="text-text-muted text-xs">{team.confederation}</p>
                   </div>

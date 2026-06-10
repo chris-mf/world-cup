@@ -4,6 +4,7 @@ export interface Team {
   flag: string;
   confederation: string;
   fifaRanking: number;
+  winProbability: number;
 }
 
 export interface Participant {
