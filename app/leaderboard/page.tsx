@@ -62,6 +62,8 @@ export default function LeaderboardPage() {
 
       {/* Scoring Legend */}
       <div className="flex flex-wrap gap-3 mb-6 text-xs text-text-muted">
+        <span>Group Win: 1pt</span>
+        <span className="text-border-subtle">|</span>
         <span>R32 Win: 1pt</span>
         <span className="text-border-subtle">|</span>
         <span>R16 Win: 2pts</span>

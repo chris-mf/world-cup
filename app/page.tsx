@@ -102,6 +102,7 @@ export default function HomePage() {
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {[
+            { round: 'Group Win', pts: 1 },
             { round: 'R32 Win', pts: 1 },
             { round: 'R16 Win', pts: 2 },
             { round: 'QF Win', pts: 4 },

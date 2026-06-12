@@ -53,7 +53,7 @@ export const ROUND_LABELS: Record<Round, string> = {
 export const ROUND_ORDER: Round[] = ['group', 'r32', 'r16', 'qf', 'sf', 'final', 'third'];
 
 export const POINTS_PER_ROUND: Record<Round, number> = {
-  group: 0,
+  group: 1,
   r32: 1,
   r16: 2,
   qf: 4,

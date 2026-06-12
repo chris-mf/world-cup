@@ -1,47 +1,100 @@
 import { DrawResult, Match, POINTS_PER_ROUND, Round, WINNER_BONUS } from './types';
 import { getMatchWinner } from './bracket';
 
+export interface TeamMatchResult {
+  round: Round;
+  opponentCode: string;
+  score: string;
+  outcome: 'W' | 'D' | 'L';
+  points: number;
+  isLive: boolean;
+}
+
+export interface TeamScore {
+  code: string;
+  points: number;
+  results: TeamMatchResult[];
+  alive: boolean;
+}
+
 export interface ParticipantScore {
   participantId: string;
   teams: [string, string];
+  teamScores: [TeamScore, TeamScore];
   teamPoints: [number, number];
   totalPoints: number;
   teamsAlive: number;
   rank: number;
 }
 
-function getTeamPoints(teamCode: string, matches: Match[]): number {
+function getTeamScore(teamCode: string, matches: Match[]): TeamScore {
   let points = 0;
-  const roundOrder: Round[] = ['r32', 'r16', 'qf', 'sf', 'third', 'final'];
+  const results: TeamMatchResult[] = [];
+  const roundOrder: Round[] = ['group', 'r32', 'r16', 'qf', 'sf', 'third', 'final'];
 
   for (const round of roundOrder) {
     const roundMatches = matches.filter((m) => m.round === round);
     for (const match of roundMatches) {
-      if (match.status !== 'completed') continue;
       if (match.team1Code !== teamCode && match.team2Code !== teamCode) continue;
 
-      const winner = getMatchWinner(match);
-      if (winner === teamCode) {
-        points += POINTS_PER_ROUND[round];
-        if (round === 'final') {
-          points += WINNER_BONUS;
+      const isHome = match.team1Code === teamCode;
+      const opponentCode = isHome ? match.team2Code : match.team1Code;
+      if (!opponentCode) continue;
+
+      const isLive = match.status === 'live';
+
+      if (match.status === 'completed' && match.score1 !== null && match.score2 !== null) {
+        const teamGoals = isHome ? match.score1 : match.score2;
+        const oppGoals = isHome ? match.score2 : match.score1;
+        const winner = getMatchWinner(match);
+        const outcome: 'W' | 'D' | 'L' =
+          winner === teamCode ? 'W' : winner === null ? 'D' : 'L';
+
+        let matchPoints = 0;
+        if (outcome === 'W') {
+          matchPoints = POINTS_PER_ROUND[round];
+          if (round === 'final') {
+            matchPoints += WINNER_BONUS;
+          }
         }
+        points += matchPoints;
+
+        results.push({
+          round,
+          opponentCode,
+          score: `${teamGoals}-${oppGoals}`,
+          outcome,
+          points: matchPoints,
+          isLive: false,
+        });
+      } else if (isLive && match.score1 !== null && match.score2 !== null) {
+        const teamGoals = isHome ? match.score1 : match.score2;
+        const oppGoals = isHome ? match.score2 : match.score1;
+        results.push({
+          round,
+          opponentCode,
+          score: `${teamGoals}-${oppGoals}`,
+          outcome: teamGoals > oppGoals ? 'W' : teamGoals < oppGoals ? 'L' : 'D',
+          points: 0,
+          isLive: true,
+        });
       }
     }
   }
 
-  return points;
-}
-
-function isTeamStillPlaying(teamCode: string, matches: Match[]): boolean {
+  let alive = true;
   for (const match of matches) {
     if (match.status !== 'completed') continue;
     if (match.round === 'group') continue;
     if (match.team1Code !== teamCode && match.team2Code !== teamCode) continue;
     const winner = getMatchWinner(match);
-    if (winner !== teamCode && match.round !== 'sf') return false;
+    if (winner !== teamCode && match.round !== 'sf') {
+      alive = false;
+      break;
+    }
   }
-  return true;
+
+  return { code: teamCode, points, results, alive };
 }
 
 export function calculateScores(
@@ -49,17 +102,16 @@ export function calculateScores(
   matches: Match[],
 ): ParticipantScore[] {
   const scores: ParticipantScore[] = drawResults.map((dr) => {
-    const t1Points = getTeamPoints(dr.teams[0], matches);
-    const t2Points = getTeamPoints(dr.teams[1], matches);
-    const t1Alive = isTeamStillPlaying(dr.teams[0], matches) ? 1 : 0;
-    const t2Alive = isTeamStillPlaying(dr.teams[1], matches) ? 1 : 0;
+    const t1 = getTeamScore(dr.teams[0], matches);
+    const t2 = getTeamScore(dr.teams[1], matches);
 
     return {
       participantId: dr.participantId,
       teams: dr.teams,
-      teamPoints: [t1Points, t2Points],
-      totalPoints: t1Points + t2Points,
-      teamsAlive: t1Alive + t2Alive as number,
+      teamScores: [t1, t2],
+      teamPoints: [t1.points, t2.points],
+      totalPoints: t1.points + t2.points,
+      teamsAlive: (t1.alive ? 1 : 0) + (t2.alive ? 1 : 0),
       rank: 0,
     };
   });
