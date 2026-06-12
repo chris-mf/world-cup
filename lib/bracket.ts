@@ -182,6 +182,7 @@ export function getMatchesByRound(matches: Match[]): Record<Round, Match[]> {
 export function isTeamEliminated(teamCode: string, matches: Match[]): boolean {
   for (const match of matches) {
     if (match.status !== 'completed') continue;
+    if (match.round === 'group') continue;
     const loser = getMatchLoser(match);
     if (loser === teamCode) {
       if (match.round !== 'sf') return true;
@@ -196,7 +197,7 @@ export function isTeamEliminated(teamCode: string, matches: Match[]): boolean {
 }
 
 export function getTeamCurrentRound(teamCode: string, matches: Match[]): Round | null {
-  const rounds: Round[] = ['final', 'third', 'sf', 'qf', 'r16', 'r32'];
+  const rounds: Round[] = ['final', 'third', 'sf', 'qf', 'r16', 'r32', 'group'];
   for (const round of rounds) {
     const roundMatches = matches.filter((m) => m.round === round);
     for (const match of roundMatches) {

@@ -57,6 +57,7 @@ const TLA_TO_CODE: Record<string, string> = {
 
 // Map Football-Data.org stage names to our Round type
 const STAGE_TO_ROUND: Record<string, Round> = {
+  GROUP_STAGE: 'group',
   LAST_32: 'r32',
   LAST_16: 'r16',
   QUARTER_FINALS: 'qf',
@@ -144,29 +145,26 @@ export async function fetchLiveMatches(): Promise<Match[]> {
     let matchNumber = 1;
 
     for (const m of apiMatches) {
-      // Skip group stage for scoring — but include them for display
       const round = STAGE_TO_ROUND[m.stage] ?? null;
+      if (!round) continue;
+
       const homeCode = m.homeTeam.tla ? (TLA_TO_CODE[m.homeTeam.tla] ?? null) : null;
       const awayCode = m.awayTeam.tla ? (TLA_TO_CODE[m.awayTeam.tla] ?? null) : null;
       const status = mapStatus(m.status);
 
-      // For knockout matches, use penalties/extra time winner if applicable
       let homeScore = m.score.fullTime.home;
       let awayScore = m.score.fullTime.away;
 
-      // If it went to penalties, the fullTime score is a draw — use the
-      // penalty result to determine the winner but keep the FT score for display.
-      // Our scoring system just needs to know who won.
-      // We encode the winner by giving them +1 if scores are level after FT.
+      // In knockout rounds, if it went to penalties the fullTime score is a
+      // draw. Bump the winner by +1 so our getMatchWinner logic works.
       if (
         status === 'completed' &&
-        round &&
+        round !== 'group' &&
         homeScore !== null &&
         awayScore !== null &&
         homeScore === awayScore &&
         m.score.winner
       ) {
-        // Break the tie so our getMatchWinner logic works
         if (m.score.winner === 'HOME_TEAM') {
           homeScore += 1;
         } else if (m.score.winner === 'AWAY_TEAM') {
@@ -174,21 +172,18 @@ export async function fetchLiveMatches(): Promise<Match[]> {
         }
       }
 
-      // Only include knockout matches for the scoring system
-      if (round) {
-        matches.push({
-          id: `api-${m.id}`,
-          round,
-          matchNumber: matchNumber++,
-          team1Code: homeCode,
-          team2Code: awayCode,
-          score1: homeScore,
-          score2: awayScore,
-          status,
-          date: m.utcDate,
-          venue: null,
-        });
-      }
+      matches.push({
+        id: `api-${m.id}`,
+        round,
+        matchNumber: matchNumber++,
+        team1Code: homeCode,
+        team2Code: awayCode,
+        score1: homeScore,
+        score2: awayScore,
+        status,
+        date: m.utcDate,
+        venue: null,
+      });
     }
 
     cachedMatches = matches;

@@ -36,9 +36,9 @@ function getTeamPoints(teamCode: string, matches: Match[]): number {
 function isTeamStillPlaying(teamCode: string, matches: Match[]): boolean {
   for (const match of matches) {
     if (match.status !== 'completed') continue;
+    if (match.round === 'group') continue;
     if (match.team1Code !== teamCode && match.team2Code !== teamCode) continue;
     const winner = getMatchWinner(match);
-    // Lost in SF → goes to third place, not eliminated yet
     if (winner !== teamCode && match.round !== 'sf') return false;
   }
   return true;

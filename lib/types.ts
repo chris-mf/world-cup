@@ -18,7 +18,7 @@ export interface DrawResult {
   teams: [string, string];
 }
 
-export type Round = 'r32' | 'r16' | 'qf' | 'sf' | 'final' | 'third';
+export type Round = 'group' | 'r32' | 'r16' | 'qf' | 'sf' | 'final' | 'third';
 
 export interface Match {
   id: string;
@@ -41,6 +41,7 @@ export interface AppState {
 }
 
 export const ROUND_LABELS: Record<Round, string> = {
+  group: 'Group Stage',
   r32: 'Round of 32',
   r16: 'Round of 16',
   qf: 'Quarter-Finals',
@@ -49,9 +50,10 @@ export const ROUND_LABELS: Record<Round, string> = {
   third: 'Third Place',
 };
 
-export const ROUND_ORDER: Round[] = ['r32', 'r16', 'qf', 'sf', 'final', 'third'];
+export const ROUND_ORDER: Round[] = ['group', 'r32', 'r16', 'qf', 'sf', 'final', 'third'];
 
 export const POINTS_PER_ROUND: Record<Round, number> = {
+  group: 0,
   r32: 1,
   r16: 2,
   qf: 4,
