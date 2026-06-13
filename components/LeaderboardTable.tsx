@@ -78,7 +78,15 @@ export function LeaderboardTable({
           {scores.map((score, i) => {
             const participant = getParticipant(score.participantId);
             const isHighlighted = score.participantId === highlightParticipant;
-            const isTied = i > 0 && scores[i - 1].rank === score.rank;
+            const isTied =
+              (i > 0 && scores[i - 1].rank === score.rank) ||
+              (i < scores.length - 1 && scores[i + 1].rank === score.rank);
+
+            const ordinal = (n: number) => {
+              const s = ['th', 'st', 'nd', 'rd'];
+              const v = n % 100;
+              return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            };
 
             return (
               <tr
@@ -88,17 +96,22 @@ export function LeaderboardTable({
                 }`}
               >
                 <td className="px-3 py-3 align-top">
-                  <span
-                    className={`font-mono font-bold text-sm ${
-                      score.rank === 1
-                        ? 'text-gold'
-                        : score.rank <= 3
-                          ? 'text-text-primary'
-                          : 'text-text-muted'
-                    }`}
-                  >
-                    {isTied ? `T${score.rank}` : score.rank}
-                  </span>
+                  <div className="flex flex-col">
+                    <span
+                      className={`font-bold text-sm ${
+                        score.rank === 1
+                          ? 'text-gold'
+                          : score.rank <= 3
+                            ? 'text-text-primary'
+                            : 'text-text-muted'
+                      }`}
+                    >
+                      {ordinal(score.rank)}
+                    </span>
+                    {isTied && (
+                      <span className="text-[10px] text-text-muted">Tied</span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-3 py-3 align-top">
                   <Link

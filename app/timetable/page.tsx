@@ -6,7 +6,7 @@ import { SCHEDULE, ScheduleMatch } from '@/lib/schedule';
 import { TEAMS } from '@/lib/teams';
 import { PARTICIPANTS } from '@/lib/participants';
 import { getParticipantForTeam } from '@/lib/store';
-import { AppState } from '@/lib/types';
+import { AppState, Match } from '@/lib/types';
 
 const TEAM_NAME_TO_CODE: Record<string, string> = {};
 for (const team of TEAMS) {
@@ -66,6 +66,16 @@ function getParticipantTeamIds(state: AppState): Map<string, string[]> {
     map.set(result.participantId, codes);
   }
   return map;
+}
+
+function findApiMatch(scheduleMatch: ScheduleMatch, matches: Match[]): Match | null {
+  const code1 = scheduleMatch.team1 ? getTeamCode(scheduleMatch.team1) : null;
+  const code2 = scheduleMatch.team2 ? getTeamCode(scheduleMatch.team2) : null;
+  if (!code1 || !code2) return null;
+  return matches.find(m =>
+    (m.team1Code === code1 && m.team2Code === code2) ||
+    (m.team1Code === code2 && m.team2Code === code1)
+  ) ?? null;
 }
 
 function matchInvolvesParticipant(
@@ -295,23 +305,55 @@ function MatchRow({ match, state }: { match: ScheduleMatch; state: AppState }) {
   const team1Info = match.team1 ? getTeamInfo(match.team1) : null;
   const team2Info = match.team2 ? getTeamInfo(match.team2) : null;
   const watchers = state.drawComplete ? getWatchers(match, state) : [];
+  const apiMatch = findApiMatch(match, state.matches);
+
+  const isCompleted = apiMatch?.status === 'completed';
+  const isLive = apiMatch?.status === 'live';
+  const hasScore = apiMatch && apiMatch.score1 !== null && apiMatch.score2 !== null;
+
+  const code1 = match.team1 ? getTeamCode(match.team1) : null;
+  const isReversed = apiMatch && code1 && apiMatch.team1Code !== code1;
+  const score1 = hasScore ? (isReversed ? apiMatch.score2 : apiMatch.score1) : null;
+  const score2 = hasScore ? (isReversed ? apiMatch.score1 : apiMatch.score2) : null;
 
   return (
-    <div className="bg-surface-raised border border-border-subtle rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+    <div className={`rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 border ${
+      isCompleted
+        ? 'bg-white/[0.02] border-border-subtle/60 opacity-70'
+        : isLive
+          ? 'bg-live/5 border-live/30'
+          : 'bg-surface-raised border-border-subtle'
+    }`}>
       <div className="sm:w-20 shrink-0">
-        <span className="text-sm text-text-secondary">{match.kickoff}</span>
+        {isCompleted ? (
+          <span className="text-xs font-medium text-text-muted bg-white/5 px-2 py-0.5 rounded">FT</span>
+        ) : isLive ? (
+          <span className="text-xs font-medium text-live flex items-center gap-1">
+            <span className="animate-pulse">●</span> LIVE
+          </span>
+        ) : (
+          <span className="text-sm text-text-secondary">{match.kickoff}</span>
+        )}
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-3">
           <TeamLabel info={team1Info} name={match.team1} />
-          <span className="text-text-muted text-xs">vs</span>
+          {hasScore ? (
+            <span className={`font-mono font-bold text-sm ${isLive ? 'text-live' : 'text-text-primary'}`}>
+              {score1} - {score2}
+            </span>
+          ) : (
+            <span className="text-text-muted text-xs">vs</span>
+          )}
           <TeamLabel info={team2Info} name={match.team2} />
         </div>
         <div className="mt-1 text-xs text-text-muted flex items-center gap-2">
           <span>{match.stage}</span>
           <span>&middot;</span>
           <span>{match.venue}</span>
+          {isCompleted && <span>&middot;</span>}
+          {isCompleted && <span>{match.kickoff}</span>}
         </div>
       </div>
 
