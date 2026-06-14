@@ -132,6 +132,39 @@ function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// ── GROUP STAGE: Setting the tone ───────────────────────────────────────
+
+const GROUP_WIN = [
+  (w: string, l: string, oW: string, oL: string) =>
+    `${l} just got done in the group stage. It's early days but bloody hell that was grim. No urgency, no quality, no fucking idea what they were doing out there. ${oW} picks up a point. ${oL}, your lot need to have a word with themselves.`,
+  (w: string, l: string, oW: string, oL: string) =>
+    `${w} take all three points and ${l} trudge off looking like they've just been told Christmas is cancelled. Flat, lifeless, embarrassing. It's only the group stage and ${l} are already making excuses. ${oW} benefits. ${oL}, long tournament ahead for you.`,
+  (w: string, l: string, oW: string, oL: string) =>
+    `${l} lost. In the groups. When all you need to do is not be shit. And they were shit. Properly shit. The kind of shit that makes you wonder how they qualified. ${oW} collects. ${oL}, it's early but the signs are not good mate.`,
+  (w: string, l: string, oW: string, oL: string) =>
+    `${w} win it. ${l} looked like they'd rather be on holiday — which is handy because at this rate they will be soon. Toothless going forward, brainless at the back. ${oW} takes the point. ${oL}, your team needs a rocket up its arse.`,
+  (w: string, l: string, oW: string, oL: string) =>
+    `${l} beaten in the group stage. Not ideal is it. Their manager will say "we go again" in the press conference but we all know that's code for "we're fucked and I'm updating my CV." ${oW} profits. ${oL}, early days but not great days.`,
+];
+
+const GROUP_DRAW = [
+  (t1: string, t2: string, o1: string, o2: string) =>
+    `${t1} ${t2} and nobody wins. Nobody deserved to win. That was 90 minutes of two teams cancelling each other out like a footballing black hole. Everyone involved should apologise. ${o1} and ${o2} share the disappointment equally.`,
+  (t1: string, t2: string, o1: string, o2: string) =>
+    `A draw. A boring, miserable, nothing draw. ${t1} and ${t2} played out the kind of match that makes people switch to watching paint dry for entertainment. Zero points for anyone in the sweepstake. ${o1} and ${o2}, your teams let you down equally.`,
+  (t1: string, t2: string, o1: string, o2: string) =>
+    `${t1} and ${t2} share the spoils. "Spoils" being generous — there was nothing worth sharing in that match. Two teams refusing to take a risk. Cowardly from both sides. ${o1} and ${o2} get precisely fuck all from that.`,
+  (t1: string, t2: string, o1: string, o2: string) =>
+    `Nil-all energy from ${t1} and ${t2} even if the score says otherwise. What a waste of everyone's time. Neither team deserved to win and neither team did. Poetry. ${o1} and ${o2}, commiserations on owning teams that play like this.`,
+];
+
+const GROUP_DRAW_GOALS = [
+  (t1: string, t2: string, o1: string, o2: string, score: string) =>
+    `${score}! At least there were goals in this one. ${t1} and ${t2} couldn't be separated — both teams attacking like lunatics and defending like they'd never heard of the concept. Entertaining as fuck but no sweepstake points for anyone. ${o1} and ${o2}, your teams gave you a show but not a result.`,
+  (t1: string, t2: string, o1: string, o2: string, score: string) =>
+    `${score} draw. Neither defence covered themselves in glory there. Both teams scored, both teams conceded, both teams are probably claiming "we showed character." No you didn't, you showed you can't defend. ${o1} and ${o2}, no points from this circus.`,
+];
+
 // ── ROUND OF 32: Warm-up banter, setting the scene ─────────────────────
 
 const R32_WIN = [
@@ -256,6 +289,7 @@ const DOUBLE_ELIMINATION_QUIPS = [
 
 function getWinQuips(round: Round) {
   switch (round) {
+    case 'group': return GROUP_WIN;
     case 'r32': return R32_WIN;
     case 'r16': return R16_WIN;
     case 'qf': return QF_WIN;
@@ -296,60 +330,80 @@ export function buildMatchMessage(
   if (!match.team1Code || !match.team2Code) return null;
   if (match.score1 === null || match.score2 === null) return null;
 
-  const winnerCode = getMatchWinner(match);
-  const loserCode = getMatchLoser(match);
-  if (!winnerCode || !loserCode) return null;
-
-  const winner = teamLabel(winnerCode);
-  const loser = teamLabel(loserCode);
-  const ownerWId = ownerOf(winnerCode);
-  const ownerLId = ownerOf(loserCode);
-  const ownerW = ownerWId ? mention(ownerWId) : 'Some lucky soul';
-  const ownerL = ownerLId ? mention(ownerLId) : 'Some poor soul';
-
   const roundLabel = ROUND_LABELS[match.round];
   const points = POINTS_PER_ROUND[match.round];
-  const isFinal = match.round === 'final';
   const scoreline = `${match.score1}-${match.score2}`;
   const goalDiff = Math.abs(match.score1 - match.score2);
-
   const team1Label = teamLabel(match.team1Code);
   const team2Label = teamLabel(match.team2Code);
   const headerText = `${roundLabel}: ${team1Label} ${match.score1} - ${match.score2} ${team2Label}`;
 
+  const owner1Id = ownerOf(match.team1Code);
+  const owner2Id = ownerOf(match.team2Code);
+  const owner1 = owner1Id ? mention(owner1Id) : 'Some soul';
+  const owner2 = owner2Id ? mention(owner2Id) : 'Some soul';
+
+  const winnerCode = getMatchWinner(match);
+  const loserCode = getMatchLoser(match);
+  const isDraw = !winnerCode;
+
   let commentary: string;
-  const sameOwner = ownerWId && ownerLId && ownerWId === ownerLId;
 
-  if (isFinal) {
-    const totalPoints = points + WINNER_BONUS;
-    commentary = pickRandom(FINAL_QUIPS)(winner, ownerW);
-    commentary += `\n\n💰 *+${totalPoints} points* to ${ownerW}!`;
-  } else if (sameOwner) {
-    commentary = pickRandom(BOTH_TEAMS_SAME_OWNER_QUIPS)(ownerW, winner, loser);
-    commentary += `\n\n📊 *+${points} points* to ${ownerW} either way. Life's not fair.`;
-  } else if (goalDiff >= 3) {
-    commentary = pickRandom(THRASHING_QUIPS)(winner, loser, ownerL, scoreline);
-    commentary += `\n\n📊 *+${points} points* to ${ownerW} 🎉`;
-  } else if (goalDiff <= 1) {
-    commentary = pickRandom(CLOSE_MATCH_QUIPS)(winner, loser, ownerW, ownerL);
-    commentary += `\n\n📊 *+${points} points* to ${ownerW}`;
-  } else {
-    commentary = pickRandom(getWinQuips(match.round))(winner, loser, ownerW, ownerL);
-    commentary += `\n\n📊 *+${points} points* to ${ownerW}`;
-  }
-
-  // Targeted roasts for the special few
-  if (ownerLId) commentary += getTargetRoast(ownerLId, 'loss');
-  if (ownerWId) commentary += getTargetRoast(ownerWId, 'win');
-
-  // Elimination tracking
-  if (ownerLId && !sameOwner) {
-    const teamsLeft = countTeamsAlive(ownerLId, allMatches);
-    if (teamsLeft === 0) {
-      commentary += pickRandom(DOUBLE_ELIMINATION_QUIPS)(ownerL);
+  if (isDraw && match.round === 'group') {
+    // Group stage draw
+    if (match.score1 === 0) {
+      commentary = pickRandom(GROUP_DRAW)(team1Label, team2Label, owner1, owner2);
     } else {
-      commentary += `\n${pickRandom(ELIMINATION_QUIPS)(ownerL)}`;
+      commentary = pickRandom(GROUP_DRAW_GOALS)(team1Label, team2Label, owner1, owner2, scoreline);
     }
+    commentary += `\n\n📊 No sweepstake points. Nobody wins. Everybody suffers.`;
+
+    // Targeted roasts for draws
+    if (owner1Id) commentary += getTargetRoast(owner1Id, 'loss');
+    if (owner2Id) commentary += getTargetRoast(owner2Id, 'loss');
+  } else if (winnerCode && loserCode) {
+    const winner = teamLabel(winnerCode);
+    const loser = teamLabel(loserCode);
+    const ownerWId = ownerOf(winnerCode);
+    const ownerLId = ownerOf(loserCode);
+    const ownerW = ownerWId ? mention(ownerWId) : 'Some lucky soul';
+    const ownerL = ownerLId ? mention(ownerLId) : 'Some poor soul';
+    const isFinal = match.round === 'final';
+    const sameOwner = ownerWId && ownerLId && ownerWId === ownerLId;
+
+    if (isFinal) {
+      const totalPoints = points + WINNER_BONUS;
+      commentary = pickRandom(FINAL_QUIPS)(winner, ownerW);
+      commentary += `\n\n💰 *+${totalPoints} points* to ${ownerW}!`;
+    } else if (sameOwner) {
+      commentary = pickRandom(BOTH_TEAMS_SAME_OWNER_QUIPS)(ownerW, winner, loser);
+      commentary += `\n\n📊 *+${points} points* to ${ownerW} either way. Life's not fair.`;
+    } else if (goalDiff >= 3) {
+      commentary = pickRandom(THRASHING_QUIPS)(winner, loser, ownerL, scoreline);
+      commentary += `\n\n📊 *+${points} points* to ${ownerW} 🎉`;
+    } else if (goalDiff <= 1) {
+      commentary = pickRandom(CLOSE_MATCH_QUIPS)(winner, loser, ownerW, ownerL);
+      commentary += `\n\n📊 *+${points} points* to ${ownerW}`;
+    } else {
+      commentary = pickRandom(getWinQuips(match.round))(winner, loser, ownerW, ownerL);
+      commentary += `\n\n📊 *+${points} points* to ${ownerW}`;
+    }
+
+    // Targeted roasts
+    if (ownerLId) commentary += getTargetRoast(ownerLId, 'loss');
+    if (ownerWId) commentary += getTargetRoast(ownerWId, 'win');
+
+    // Elimination tracking (knockout only)
+    if (ownerLId && !sameOwner && match.round !== 'group') {
+      const teamsLeft = countTeamsAlive(ownerLId, allMatches);
+      if (teamsLeft === 0) {
+        commentary += pickRandom(DOUBLE_ELIMINATION_QUIPS)(ownerL);
+      } else {
+        commentary += `\n${pickRandom(ELIMINATION_QUIPS)(ownerL)}`;
+      }
+    }
+  } else {
+    return null;
   }
 
   const blocks: SlackBlock[] = [
