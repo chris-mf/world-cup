@@ -1,12 +1,15 @@
 'use client';
 
-import { Match } from '@/lib/types';
+import { Match, DrawResult, ROUND_LABELS } from '@/lib/types';
 import { getTeam } from '@/lib/teams';
 import { getMatchWinner } from '@/lib/bracket';
+import { getParticipantForTeam } from '@/lib/store';
+import { getParticipant } from '@/lib/participants';
 
 interface MatchCardProps {
   match: Match;
   highlightTeams?: Set<string>;
+  drawResults?: DrawResult[];
   compact?: boolean;
   onClick?: () => void;
 }
@@ -17,12 +20,14 @@ function TeamRow({
   isWinner,
   isHighlighted,
   compact,
+  ownerName,
 }: {
   code: string | null;
   score: number | null;
   isWinner: boolean;
   isHighlighted: boolean;
   compact: boolean;
+  ownerName: string | null;
 }) {
   const team = code ? getTeam(code) : null;
 
@@ -40,13 +45,20 @@ function TeamRow({
         <span className={compact ? 'text-sm' : 'text-base'}>
           {team ? team.flag : '🏳️'}
         </span>
-        <span
-          className={`truncate ${compact ? 'text-xs' : 'text-sm'} ${
-            isWinner ? 'font-bold text-gold' : team ? '' : 'text-text-muted italic'
-          }`}
-        >
-          {team ? team.name : 'TBD'}
-        </span>
+        <div className="min-w-0">
+          <span
+            className={`truncate block ${compact ? 'text-xs' : 'text-sm'} ${
+              isWinner ? 'font-bold text-gold' : team ? '' : 'text-text-muted italic'
+            }`}
+          >
+            {team ? team.name : 'TBD'}
+          </span>
+          {ownerName && (
+            <span className="block text-[9px] text-text-muted truncate leading-tight">
+              {ownerName}
+            </span>
+          )}
+        </div>
       </div>
       {score !== null && (
         <span
@@ -61,9 +73,18 @@ function TeamRow({
   );
 }
 
+function getOwnerName(code: string | null, drawResults?: DrawResult[]): string | null {
+  if (!code || !drawResults) return null;
+  const participantId = getParticipantForTeam(code, drawResults);
+  if (!participantId) return null;
+  const p = getParticipant(participantId);
+  return p?.shortName ?? null;
+}
+
 export function MatchCard({
   match,
   highlightTeams,
+  drawResults,
   compact = false,
   onClick,
 }: MatchCardProps) {
@@ -71,6 +92,8 @@ export function MatchCard({
   const isHighlight1 = highlightTeams?.has(match.team1Code ?? '') ?? false;
   const isHighlight2 = highlightTeams?.has(match.team2Code ?? '') ?? false;
   const hasHighlight = isHighlight1 || isHighlight2;
+
+  const roundLabel = ROUND_LABELS[match.round] ?? match.round;
 
   return (
     <div
@@ -82,13 +105,13 @@ export function MatchCard({
             ? 'border-active/30 bg-surface-raised'
             : 'border-border-subtle bg-surface-raised'
       } ${onClick ? 'cursor-pointer hover:border-gold/40' : ''} ${
-        compact ? 'w-[180px]' : 'w-[220px]'
+        compact ? 'w-[200px]' : 'w-[240px]'
       }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-2 py-1 border-b border-border-subtle">
         <span className="text-[10px] font-medium text-text-muted uppercase tracking-wider">
-          {match.id.replace('-', ' #')}
+          {roundLabel}
         </span>
         <span
           className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
@@ -120,6 +143,7 @@ export function MatchCard({
           isWinner={winner === match.team1Code}
           isHighlighted={isHighlight1}
           compact={compact}
+          ownerName={getOwnerName(match.team1Code, drawResults)}
         />
         <TeamRow
           code={match.team2Code}
@@ -127,6 +151,7 @@ export function MatchCard({
           isWinner={winner === match.team2Code}
           isHighlighted={isHighlight2}
           compact={compact}
+          ownerName={getOwnerName(match.team2Code, drawResults)}
         />
       </div>
     </div>

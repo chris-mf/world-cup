@@ -1,12 +1,13 @@
 'use client';
 
-import { Match, Round, ROUND_LABELS } from '@/lib/types';
+import { Match, Round, ROUND_LABELS, DrawResult } from '@/lib/types';
 import { getMatchesByRound } from '@/lib/bracket';
 import { MatchCard } from './MatchCard';
 
 interface BracketViewProps {
   matches: Match[];
   highlightTeams?: Set<string>;
+  drawResults?: DrawResult[];
   onMatchClick?: (match: Match) => void;
 }
 
@@ -15,6 +16,7 @@ const BRACKET_ROUNDS: Round[] = ['r32', 'r16', 'qf', 'sf', 'final'];
 export function BracketView({
   matches,
   highlightTeams,
+  drawResults,
   onMatchClick,
 }: BracketViewProps) {
   const byRound = getMatchesByRound(matches);
@@ -46,6 +48,7 @@ export function BracketView({
                       key={match.id}
                       match={match}
                       highlightTeams={highlightTeams}
+                      drawResults={drawResults}
                       compact
                       onClick={
                         onMatchClick ? () => onMatchClick(match) : undefined
@@ -68,6 +71,7 @@ export function BracketView({
           <MatchCard
             match={thirdPlace}
             highlightTeams={highlightTeams}
+            drawResults={drawResults}
             onClick={onMatchClick ? () => onMatchClick(thirdPlace) : undefined}
           />
         </div>
