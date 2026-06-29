@@ -42,37 +42,39 @@ export default function HomePage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-10"
+        className="mb-10"
       >
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
-          <span className="text-gold">World Cup 2026</span>
-          <br />
-          <span className="text-text-primary">Sweepstake</span>
+        <h1 className="text-2xl font-semibold tracking-tight text-text-primary">
+          World Cup 2026 Sweepstake
         </h1>
-        <div className="mt-4 flex items-center justify-center gap-4 flex-wrap">
-          <p className="text-text-muted text-sm">
-            Draw completed{' '}
-            {state.drawTimestamp &&
-              new Date(state.drawTimestamp).toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-          </p>
-        </div>
+        <p className="text-text-muted text-sm mt-1">
+          Draw completed{' '}
+          {state.drawTimestamp &&
+            new Date(state.drawTimestamp).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+        </p>
 
-        <div className="mt-4 flex items-center justify-center gap-3">
+        <div className="mt-5 flex items-center gap-3">
           <Link
             href="/leaderboard"
             className="px-4 py-2 bg-gold/10 text-gold border border-gold/20 rounded-lg text-sm font-medium hover:bg-gold/20 transition-colors"
           >
             Leaderboard
+          </Link>
+          <Link
+            href="/bracket"
+            className="px-4 py-2 bg-white/[0.04] text-text-secondary border border-border-subtle rounded-lg text-sm font-medium hover:bg-white/[0.07] hover:text-text-primary transition-colors"
+          >
+            Bracket
           </Link>
         </div>
       </motion.div>
@@ -95,9 +97,9 @@ export default function HomePage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="mt-12 border-t border-border-subtle pt-8"
+        className="mt-14 border-t border-border-subtle pt-8"
       >
-        <h2 className="text-sm font-normal uppercase tracking-wider text-text-muted mb-4">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-text-muted mb-4">
           Scoring System
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
@@ -114,7 +116,7 @@ export default function HomePage() {
               key={round}
               className="bg-surface-raised border border-border-subtle rounded-lg p-3 text-center"
             >
-              <p className="text-gold font-mono font-normal text-lg">{pts} pts</p>
+              <p className="text-gold font-mono font-medium text-lg">{pts} pts</p>
               <p className="text-text-muted text-xs mt-1">{round}</p>
             </div>
           ))}

@@ -14,17 +14,17 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b border-border-subtle bg-bg/80 backdrop-blur-md sticky top-0 z-50">
+    <nav className="border-b border-border-subtle bg-surface/90 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className="text-2xl">⚽</span>
-            <span className="text-lg tracking-tight text-text-primary">
+        <div className="flex items-center justify-between h-14">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <span className="text-xl">⚽</span>
+            <span className="text-sm font-medium tracking-tight text-text-primary">
               WC 2026
             </span>
           </Link>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 item.href === '/'
@@ -35,10 +35,10 @@ export function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
                     isActive
-                      ? 'text-white bg-white/5'
-                      : 'text-text-muted hover:text-text-primary hover:bg-white/5'
+                      ? 'text-text-primary font-medium bg-white/[0.07]'
+                      : 'text-text-muted hover:text-text-secondary hover:bg-white/[0.04]'
                   }`}
                 >
                   {item.label}
